@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AO × Products — Mød teamet bag dine skærme</title>
+<style>
+  :root {
+    /* e-conomic brand palette */
+    --bg: #29283E;          /* Midnight Blue */
+    --bg-2: #1F1E30;
+    --ink: #F6E6CB;         /* Cream */
+    --ink-strong: #FFFFFF;
+    --muted: #C4B89F;
+    --accent: #E89C2E;      /* Brand orange */
+    --accent-soft: #FFD665;
+    --green: #08AE87;
+    --purple: #9270FA;
+    --rule: rgba(246, 230, 203, 0.14);
+    --card-bg: rgba(246, 230, 203, 0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Open Sans", "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+  }
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+    background:
+      radial-gradient(900px 600px at 85% 15%, rgba(232,156,46,0.10), transparent 70%),
+      radial-gradient(900px 600px at 10% 90%, rgba(146,112,250,0.08), transparent 70%),
+      var(--bg);
+  }
+  .slide.active { display: flex; }
+
+  /* Simple layout: plain dark slide, centered content */
+  .slide.simple {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 7vh 8vw;
+  }
+  .slide.simple .simple-inner {
+    max-width: 80ch;
+    margin: auto 0;
+  }
+
+  /* Split layout: content left, image right */
+  .slide.split { flex-direction: row; }
+  .slide.split .content {
+    flex: 1 1 56%;
+    padding: 7vh 5vw 7vh 8vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slide.split .media {
+    flex: 1 1 44%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .slide.split .media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(41,40,52,0.55) 0%, rgba(41,40,52,0) 30%);
+  }
+
+  /* Full-bleed cinematic */
+  .slide.hero {
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vh 9vw;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .slide.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(41,40,52,0.55) 0%, rgba(41,40,52,0.85) 60%, rgba(41,40,52,0.95) 100%);
+    z-index: 0;
+  }
+  .slide.hero > * { position: relative; z-index: 1; }
+  .slide.hero.center { text-align: center; align-items: center; }
+
+  /* Typography */
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-bottom: 1.6rem;
+  }
+  h1 {
+    font-family: Georgia, "Cambria", serif;
+    font-size: clamp(2.4rem, 5.4vw, 5rem);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink-strong);
+  }
+  h2 {
+    font-family: Georgia, "Cambria", serif;
+    font-size: clamp(1.8rem, 3.4vw, 3rem);
+    line-height: 1.15;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: var(--ink-strong);
+  }
+  .lede {
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    color: var(--ink);
+    max-width: 50ch;
+    margin-top: 1.1rem;
+    line-height: 1.5;
+  }
+  .accent { color: var(--accent); }
+  .accent-2 { color: var(--accent-soft); }
+
+  .big-quote {
+    font-family: Georgia, serif;
+    font-size: clamp(2rem, 4.4vw, 4rem);
+    line-height: 1.18;
+    max-width: 22ch;
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .big-quote .line2 {
+    color: var(--accent);
+    display: block;
+    margin-top: 0.4em;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2.2rem;
+    max-width: 700px;
+  }
+  .stat .n {
+    font-family: Georgia, serif;
+    font-size: clamp(2.6rem, 5.5vw, 4.6rem);
+    line-height: 1;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .stat .l {
+    margin-top: 0.5rem;
+    font-size: 0.92rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .research-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.6rem 2rem;
+    margin-top: 2rem;
+    max-width: 560px;
+  }
+  .research-stats .stat .n { font-size: clamp(2.2rem, 4.4vw, 3.6rem); }
+
+  ul.checks, ul.convo-list {
+    list-style: none;
+    margin-top: 1.4rem;
+    max-width: 640px;
+  }
+  ul.checks li {
+    font-size: clamp(0.98rem, 1.25vw, 1.15rem);
+    padding: 0.7rem 0 0.7rem 1.6rem;
+    position: relative;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--rule);
+  }
+  ul.checks li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  ul.convo-list li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--rule);
+    font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+    line-height: 1.5;
+    counter-increment: step;
+    padding-left: 2.2rem;
+    position: relative;
+  }
+  ul.convo-list { counter-reset: step; }
+  ul.convo-list li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.85rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--bg);
+    font-family: Georgia, serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pill {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 0.78rem;
+    margin-bottom: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 2rem;
+    left: 8vw;
+    right: 8vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .slide.split .footer { left: 8vw; right: auto; gap: 2rem; }
+  .slide.split .footer span + span { margin-left: 2rem; }
+
+  .nav {
+    position: fixed;
+    top: 1.4rem;
+    right: 1.4rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+  .nav button {
+    background: rgba(246,230,203,0.08);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .nav button:hover { background: rgba(246,230,203,0.16); }
+
+  .panel-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.6rem;
+    max-width: 640px;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem;
+  }
+  .card h3 {
+    font-family: Georgia, serif;
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .card p { color: var(--ink); font-size: 0.88rem; line-height: 1.45; }
+
+  .post-panel {
+    margin-top: 1.4rem;
+    color: var(--ink);
+    font-size: 0.95rem;
+    border-top: 1px dashed var(--rule);
+    padding-top: 1rem;
+    max-width: 640px;
+  }
+  .post-panel strong { color: var(--accent); }
+
+  .kicker {
+    color: var(--accent);
+    font-family: Georgia, serif;
+    font-style: italic;
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    max-width: 60ch;
+    line-height: 1.5;
+  }
+
+  /* Closing slide */
+  .slide.closing { align-items: center; justify-content: center; text-align: center; }
+  .slide.closing .simple-inner { max-width: 48ch; text-align: center; }
+  .slide.closing .big-quote {
+    max-width: none;
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 1;
+    font-weight: 700;
+  }
+  .closing-kicker {
+    margin-top: 2.4rem;
+    font-family: Georgia, serif;
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+    line-height: 1.5;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: 5;
+  }
+  .logo {
+    position: fixed;
+    bottom: 1.6rem;
+    right: 1.6rem;
+    height: 28px;
+    width: auto;
+    opacity: 0.85;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .brand {
+    position: absolute;
+    top: 2.2rem;
+    left: 8vw;
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    z-index: 2;
+  }
+  .brand .dot { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<img src="assets/e-conomic_Primary_logo_Neg_CMYK.png" alt="e-conomic" class="logo" />
+<div class="deck" id="deck">
+
+  <!-- 1 Agenda -->
+  <section class="slide split active">
+    <div class="content">
+      <div class="pill">Dagens program</div>
+      <h2>Tre ting vi skal <span class="accent">igennem</span></h2>
+      <ul class="convo-list">
+        <li><strong>Bag skærmen</strong> — Mød teamet bag e-conomic</li>
+        <li>Et kig ind i vores <strong>AI-fremtid</strong></li>
+        <li><strong>Workshop</strong> — Hjælp os med at forme fremtidens e-conomic</li>
+      </ul>
+      <div class="footer"><span>Agenda</span><span>1 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/01-agenda.png');"></div>
+  </section>
+
+  <!-- 2 Title -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">e-conomic · Products</div>
+      <h1>Bag <span class="accent">skærmen</span></h1>
+      <p class="lede">Mød teamet bag dine skærme — hvem vi er, hvad der motiverer os, og hvorfor din hverdag er vores mission.</p>
+      <div class="footer"><span>10 minutter</span><span>2 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/02-bag-skaermen.png');"></div>
+  </section>
+
+  <!-- 3 Opening line -->
+  <section class="slide split">
+    <div class="content">
+      <p class="big-quote">
+        Jeres hverdag kører i e-conomic.
+        <span class="line2">Vores hverdag går med at bygge det.</span>
+      </p>
+      <p class="kicker">Velkomst &amp; hvem er i rummet?</p>
+      <div class="footer"><span>Velkomst</span><span>3 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/03-velkomst.png');"></div>
+  </section>
+
+  <!-- 4 Vision & Mission -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">Hvem vi er</div>
+      <h2>Vi forandrer fremtidens regnskab — <span class="accent">med jer i hjertet</span>.</h2>
+      <p class="lede">Vores mission er at levere den mest innovative regnskabsteknologi, der forenkler workflows, sikrer compliance og skaber effektivitet i jeres forretning.</p>
+      <div class="footer"><span>Mission</span><span>4 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/04-mission.png');"></div>
+  </section>
+
+  <!-- 4 By the numbers -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">Products i tal</div>
+      <h2>Hvem vi er, <span class="accent">i tal</span></h2>
+      <div class="stats">
+        <div class="stat"><div class="n">210</div><div class="l">mennesker i Products</div></div>
+        <div class="stat"><div class="n">38</div><div class="l">nationaliteter</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">kontorer — Denmark · Romania · Portugal</div></div>
+      </div>
+      <div class="footer"><span>Hvem vi er</span><span>5 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/05-i-tal.png');"></div>
+  </section>
+
+  <!-- 5 2025 research stats -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">2025</div>
+      <h2>Vi kunne ikke holde op med at <span class="accent">snakke med jer</span></h2>
+      <div class="research-stats">
+        <div class="stat"><div class="n">600+</div><div class="l">interviews</div></div>
+        <div class="stat"><div class="n">20</div><div class="l">workshops</div></div>
+        <div class="stat"><div class="n">55</div><div class="l">gange ude af kontoret</div></div>
+        <div class="stat"><div class="n">9</div><div class="l">roadshows</div></div>
+      </div>
+      <p class="lede">Det er jeres input der former hvad vi bygger i dag.</p>
+      <div class="footer"><span>Research 2025</span><span>6 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/06-research-2025.png');"></div>
+  </section>
+
+  <!-- 6 Why we do research -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">Hvorfor</div>
+      <h2>Hvorfor vi banker på <span class="accent">jeres dør</span></h2>
+      <p class="lede">Tallene fortæller hvad. I fortæller hvorfor — så vi bygger det I faktisk har brug for.</p>
+      <div class="footer"><span>Hvorfor</span><span>7 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/07-hvorfor.jpg');"></div>
+  </section>
+
+  <!-- 7 What we want to understand -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">Hvad vi lytter efter</div>
+      <h2>Vi vil forstå de <span class="accent">opgaver I skal have løst</span>.</h2>
+      <ul class="checks">
+        <li>Hvad virker ikke i dag?</li>
+        <li>Hvordan arbejder I — og hvilke workarounds har I fundet?</li>
+        <li>Hvor vil I spare mest tid?</li>
+        <li>Hvorfor vælger I en funktion frem for en anden?</li>
+        <li>Hvad tænker I om fremtiden?</li>
+      </ul>
+      <div class="footer"><span>Jobs to be done</span><span>8 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/08-jobs-to-be-done.jpg');"></div>
+  </section>
+
+  <!-- 8 User panel -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">Bliv en del af det</div>
+      <h2>Bliv en del af vores <span class="accent">brugerpanel</span></h2>
+      <div class="panel-grid">
+        <div class="card">
+          <h3>Book når det passer dig</h3>
+          <p>Vi sender et emne, du vælger tid. 20–40 min. Aflys hvis det ikke passer alligevel.</p>
+        </div>
+        <div class="card">
+          <h3>Prøv nye funktioner først</h3>
+          <p>Få tidlig adgang og giv feedback før lancering.</p>
+        </div>
+        <div class="card">
+          <h3>Tilmeld dig i e-conomic</h3>
+          <p>Mine indstillinger / Feedback / Brugerpanel. Meld dig ud når som helst.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Brugerpanel</span><span>9 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/09-brugerpanel.jpg');"></div>
+  </section>
+
+  <!-- 9 What a session looks like -->
+  <section class="slide split">
+    <div class="content">
+      <div class="pill">Hvad sker der</div>
+      <h2>Sådan kan en <span class="accent">samtale</span> se ud</h2>
+      <ul class="convo-list">
+        <li>Du møder <strong>Rasmus og Sara</strong> — fra dit kontor, måske med en kaffe. Nysgerrigheden står vi for.</li>
+        <li>Vi spørger ind til din hverdag — hvad fylder, hvad frustrerer, hvad fungerer.</li>
+        <li>Måske tester vi noget nyt sammen — der er ingen forkerte svar, kun ærlige.</li>
+        <li>Vi vil høre om dine genveje, workarounds og alt det du ville ønske e-conomic bare kunne.</li>
+        <li><em>Du taler, vi lytter — og vi har som regel rigtig mange spørgsmål.</em></li>
+      </ul>
+      <div class="footer"><span>Touchpoint</span><span>10 / 11</span></div>
+    </div>
+    <div class="media" style="background-image:url('assets/img/10-samtale.png');"></div>
+  </section>
+
+  <!-- 11 Closing -->
+  <section class="slide simple closing">
+    <div class="simple-inner">
+      <p class="big-quote">Tak<span class="accent">!</span></p>
+      <p class="closing-kicker">
+        Vi håber I fik et indblik i hvem vi er — og lyst til at være med til at forme det vi bygger. Vi kan ikke gøre det uden jer.
+      </p>
+    </div>
+    <div class="footer"><span>Tak</span><span>11 / 11</span></div>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button onclick="go(-1)">←</button>
+  <button onclick="go(1)">→</button>
+  <button onclick="toggleFs()">⛶</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const progress = document.getElementById('progress');
+  let i = 0;
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  function go(d) { show(i + d); }
+  function toggleFs() {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { go(1); e.preventDefault(); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { go(-1); e.preventDefault(); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key === 'f') toggleFs();
+  });
+  const h = parseInt(location.hash.slice(1));
+  if (!isNaN(h)) show(h - 1); else show(0);
+</script>
+</body>
+</html>
