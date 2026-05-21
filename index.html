@@ -8,14 +8,10 @@
   :root {
     /* e-conomic brand palette */
     --bg: #29283E;          /* Midnight Blue */
-    --bg-2: #1F1E30;
     --ink: #F6E6CB;         /* Cream */
     --ink-strong: #FFFFFF;
     --muted: #C4B89F;
     --accent: #E89C2E;      /* Brand orange */
-    --accent-soft: #FFD665;
-    --green: #08AE87;
-    --purple: #9270FA;
     --rule: rgba(246, 230, 203, 0.14);
     --card-bg: rgba(246, 230, 203, 0.06);
   }
@@ -73,33 +69,7 @@
     background: linear-gradient(90deg, rgba(41,40,52,0.55) 0%, rgba(41,40,52,0) 30%);
   }
 
-  /* Full-bleed cinematic */
-  .slide.hero {
-    flex-direction: column;
-    justify-content: center;
-    padding: 6vh 9vw;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-  }
-  .slide.hero::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(41,40,52,0.55) 0%, rgba(41,40,52,0.85) 60%, rgba(41,40,52,0.95) 100%);
-    z-index: 0;
-  }
-  .slide.hero > * { position: relative; z-index: 1; }
-  .slide.hero.center { text-align: center; align-items: center; }
-
   /* Typography */
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    font-size: 0.78rem;
-    color: var(--accent);
-    margin-bottom: 1.6rem;
-  }
   h1 {
     font-family: Georgia, "Cambria", serif;
     font-size: clamp(2.4rem, 5.4vw, 5rem);
@@ -113,18 +83,17 @@
     font-size: clamp(1.8rem, 3.4vw, 3rem);
     line-height: 1.15;
     font-weight: 700;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.6rem;
     color: var(--ink-strong);
   }
   .lede {
     font-size: clamp(1.05rem, 1.5vw, 1.4rem);
     color: var(--ink);
     max-width: 50ch;
-    margin-top: 1.1rem;
+    margin-top: 0;
     line-height: 1.5;
   }
   .accent { color: var(--accent); }
-  .accent-2 { color: var(--accent-soft); }
 
   .big-quote {
     font-family: Georgia, serif;
@@ -144,7 +113,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    margin-top: 2.2rem;
+    margin-top: 0;
     max-width: 700px;
   }
   .stat .n {
@@ -165,14 +134,15 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.6rem 2rem;
-    margin-top: 2rem;
+    margin-top: 0;
     max-width: 560px;
   }
+  .research-stats + .lede { margin-top: 1.6rem; }
   .research-stats .stat .n { font-size: clamp(2.2rem, 4.4vw, 3.6rem); }
 
   ul.checks, ul.convo-list {
     list-style: none;
-    margin-top: 1.4rem;
+    margin-top: 0;
     max-width: 640px;
   }
   ul.checks li {
@@ -231,18 +201,21 @@
     position: absolute;
     bottom: 2rem;
     left: 8vw;
-    right: 8vw;
+    right: auto;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 0.8rem;
     color: var(--muted);
     font-size: 0.78rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     z-index: 2;
   }
-  .slide.split .footer { left: 8vw; right: auto; gap: 2rem; }
-  .slide.split .footer span + span { margin-left: 2rem; }
+  .footer span + span::before {
+    content: "·";
+    margin-right: 0.8rem;
+    color: var(--accent);
+  }
 
   .nav {
     position: fixed;
@@ -266,9 +239,9 @@
 
   .panel-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1.6rem;
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+    margin-top: 0;
     max-width: 640px;
   }
   .card {
@@ -286,23 +259,13 @@
   }
   .card p { color: var(--ink); font-size: 0.88rem; line-height: 1.45; }
 
-  .post-panel {
-    margin-top: 1.4rem;
-    color: var(--ink);
-    font-size: 0.95rem;
-    border-top: 1px dashed var(--rule);
-    padding-top: 1rem;
-    max-width: 640px;
-  }
-  .post-panel strong { color: var(--accent); }
-
   .kicker {
     color: var(--accent);
     font-family: Georgia, serif;
     font-style: italic;
-    margin-top: 1.4rem;
+    margin-top: 1.6rem;
     font-size: clamp(1rem, 1.3vw, 1.2rem);
-    max-width: 60ch;
+    max-width: 50ch;
     line-height: 1.5;
   }
 
@@ -343,17 +306,6 @@
     pointer-events: none;
   }
 
-  .brand {
-    position: absolute;
-    top: 2.2rem;
-    left: 8vw;
-    font-size: 0.78rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--muted);
-    z-index: 2;
-  }
-  .brand .dot { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -382,7 +334,7 @@
       <div class="pill">e-conomic · Products</div>
       <h1>Bag <span class="accent">skærmen</span></h1>
       <p class="lede">Mød teamet bag dine skærme — hvem vi er, hvad der motiverer os, og hvorfor din hverdag er vores mission.</p>
-      <div class="footer"><span>10 minutter</span><span>2 / 11</span></div>
+      <div class="footer"><span>Bag skærmen</span><span>2 / 11</span></div>
     </div>
     <div class="media" style="background-image:url('assets/img/02-bag-skaermen.png');"></div>
   </section>
@@ -390,11 +342,12 @@
   <!-- 3 Opening line -->
   <section class="slide split">
     <div class="content">
+      <div class="pill">Velkomst</div>
       <p class="big-quote">
         Jeres hverdag kører i e-conomic.
         <span class="line2">Vores hverdag går med at bygge det.</span>
       </p>
-      <p class="kicker">Velkomst &amp; hvem er i rummet?</p>
+      <p class="kicker">Hvem er i rummet?</p>
       <div class="footer"><span>Velkomst</span><span>3 / 11</span></div>
     </div>
     <div class="media" style="background-image:url('assets/img/03-velkomst.png');"></div>
@@ -411,7 +364,7 @@
     <div class="media" style="background-image:url('assets/img/04-mission.png');"></div>
   </section>
 
-  <!-- 4 By the numbers -->
+  <!-- 5 By the numbers -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Products i tal</div>
@@ -426,7 +379,7 @@
     <div class="media" style="background-image:url('assets/img/05-i-tal.png');"></div>
   </section>
 
-  <!-- 5 2025 research stats -->
+  <!-- 6 2025 research stats -->
   <section class="slide split">
     <div class="content">
       <div class="pill">2025</div>
@@ -443,7 +396,7 @@
     <div class="media" style="background-image:url('assets/img/06-research-2025.png');"></div>
   </section>
 
-  <!-- 6 Why we do research -->
+  <!-- 7 Why we do research -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvorfor</div>
@@ -454,7 +407,7 @@
     <div class="media" style="background-image:url('assets/img/07-hvorfor.jpg');"></div>
   </section>
 
-  <!-- 7 What we want to understand -->
+  <!-- 8 What we want to understand -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvad vi lytter efter</div>
@@ -471,7 +424,7 @@
     <div class="media" style="background-image:url('assets/img/08-jobs-to-be-done.jpg');"></div>
   </section>
 
-  <!-- 8 User panel -->
+  <!-- 9 User panel -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Bliv en del af det</div>
@@ -495,7 +448,7 @@
     <div class="media" style="background-image:url('assets/img/09-brugerpanel.jpg');"></div>
   </section>
 
-  <!-- 9 What a session looks like -->
+  <!-- 10 What a session looks like -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvad sker der</div>
@@ -520,7 +473,7 @@
         Vi håber I fik et indblik i hvem vi er — og lyst til at være med til at forme det vi bygger. Vi kan ikke gøre det uden jer.
       </p>
     </div>
-    <div class="footer"><span>Tak</span><span>11 / 11</span></div>
+    <div class="footer"><span>11 / 11</span></div>
   </section>
 
 </div>
