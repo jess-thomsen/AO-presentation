@@ -4,16 +4,19 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AO × Products — Mød teamet bag dine skærme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet" />
 <style>
   :root {
-    /* e-conomic brand palette */
-    --bg: #29283E;          /* Midnight Blue */
-    --ink: #F6E6CB;         /* Cream */
-    --ink-strong: #FFFFFF;
-    --muted: #C4B89F;
-    --accent: #E89C2E;      /* Brand orange */
-    --rule: rgba(246, 230, 203, 0.14);
-    --card-bg: rgba(246, 230, 203, 0.06);
+    /* e-conomic brand palette (per official Design Guide, Oct 2024) */
+    --bg: #29283E;          /* Midnight Blue (Blue-900) — primary background */
+    --ink: #FFFFFF;         /* White — negative text on dark backgrounds */
+    --ink-strong: #FFFFFF;  /* White */
+    --muted: rgba(255, 255, 255, 0.72); /* toned-down white for eyebrows/footer */
+    --accent: #E89C2E;      /* Sunset Orange (Yellow-700) — brand highlight */
+    --rule: rgba(255, 255, 255, 0.14);
+    --card-bg: rgba(255, 255, 255, 0.06);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
@@ -61,6 +64,9 @@
     background-size: cover;
     background-position: center;
     position: relative;
+    border-radius: 6px;        /* brand guide: 6px corner rounding on digital images */
+    overflow: hidden;
+    margin: 2.4vh 2.4vw 2.4vh 0;
   }
   .slide.split .media::after {
     content: "";
@@ -71,15 +77,17 @@
 
   /* Typography */
   h1 {
-    font-family: Georgia, "Cambria", serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(2.4rem, 5.4vw, 5rem);
     line-height: 1.05;
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--ink-strong);
+    margin-bottom: 1.4rem;
   }
+  .nowrap { white-space: nowrap; }
   h2 {
-    font-family: Georgia, "Cambria", serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(1.8rem, 3.4vw, 3rem);
     line-height: 1.15;
     font-weight: 700;
@@ -96,7 +104,7 @@
   .accent { color: var(--accent); }
 
   .big-quote {
-    font-family: Georgia, serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(2rem, 4.4vw, 4rem);
     line-height: 1.18;
     max-width: 22ch;
@@ -117,11 +125,11 @@
     max-width: 700px;
   }
   .stat .n {
-    font-family: Georgia, serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(2.6rem, 5.5vw, 4.6rem);
     line-height: 1;
     color: var(--accent);
-    font-weight: 700;
+    font-weight: 600;
   }
   .stat .l {
     margin-top: 0.5rem;
@@ -129,6 +137,12 @@
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: 0.12em;
+  }
+  .offices {
+    margin-top: 1.4rem;
+    color: var(--muted);
+    font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+    letter-spacing: 0.08em;
   }
   .research-stats {
     display: grid;
@@ -180,7 +194,7 @@
     border-radius: 999px;
     background: var(--accent);
     color: var(--bg);
-    font-family: Georgia, serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 700;
     font-size: 0.85rem;
     display: flex;
@@ -195,6 +209,27 @@
     margin-bottom: 1.4rem;
     text-transform: uppercase;
     letter-spacing: 0.22em;
+  }
+
+  .session-copy {
+    max-width: 52ch;
+    margin-top: 0;
+  }
+  .session-copy p {
+    font-size: clamp(1rem, 1.35vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .session-copy p + p { margin-top: 1rem; }
+
+  .why-join { margin-top: 2rem; }
+  .why-join .pill { margin-bottom: 0.7rem; }
+  .why-join-list { margin-top: 0; }
+  .why-join-list li {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
+    border-bottom: none;
+    font-size: clamp(0.92rem, 1.1vw, 1.05rem);
   }
 
   .footer {
@@ -251,7 +286,7 @@
     padding: 1.1rem 1.2rem;
   }
   .card h3 {
-    font-family: Georgia, serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 1.05rem;
     margin-bottom: 0.35rem;
     color: var(--accent);
@@ -261,7 +296,7 @@
 
   .kicker {
     color: var(--accent);
-    font-family: Georgia, serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-style: italic;
     margin-top: 1.6rem;
     font-size: clamp(1rem, 1.3vw, 1.2rem);
@@ -273,14 +308,15 @@
   .slide.closing { align-items: center; justify-content: center; text-align: center; }
   .slide.closing .simple-inner { max-width: 48ch; text-align: center; }
   .slide.closing .big-quote {
-    max-width: none;
-    font-size: clamp(4rem, 10vw, 9rem);
-    line-height: 1;
+    max-width: 18ch;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    line-height: 1.05;
     font-weight: 700;
+    margin: 0 auto;
   }
   .closing-kicker {
     margin-top: 2.4rem;
-    font-family: Georgia, serif;
+    font-family: "Open Sans", -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: clamp(1.1rem, 1.6vw, 1.4rem);
     line-height: 1.5;
     color: var(--ink);
@@ -313,30 +349,15 @@
 <img src="assets/e-conomic_Primary_logo_Neg_CMYK.png" alt="e-conomic" class="logo" />
 <div class="deck" id="deck">
 
-  <!-- 1 Agenda -->
+  <!-- 1 Title -->
   <section class="slide split active">
-    <div class="content">
-      <div class="pill">Dagens program</div>
-      <h2>Tre ting vi skal <span class="accent">igennem</span></h2>
-      <ul class="convo-list">
-        <li><strong>Bag skærmen</strong> — Mød teamet bag e-conomic</li>
-        <li>Et kig ind i vores <strong>AI-fremtid</strong></li>
-        <li><strong>Workshop</strong> — Hjælp os med at forme fremtidens e-conomic</li>
-      </ul>
-      <div class="footer"><span>Agenda</span><span>1 / 11</span></div>
-    </div>
-    <div class="media" style="background-image:url('assets/img/01-agenda.jpg');"></div>
-  </section>
-
-  <!-- 2 Title -->
-  <section class="slide split">
     <div class="content">
       <div class="pill">e-conomic · Products</div>
       <h1>Bag <span class="accent">skærmen</span></h1>
       <p class="lede">Mød teamet bag dine skærme — hvem vi er, hvad der motiverer os, og hvorfor din hverdag er vores mission.</p>
-      <div class="footer"><span>Bag skærmen</span><span>2 / 11</span></div>
+      <div class="footer"><span>1 / 10</span></div>
     </div>
-    <div class="media" style="background-image:url('assets/img/02-bag-skaermen.jpg');"></div>
+    <div class="media" style="background-image:url('assets/img/02-bag-skaermen.png');"></div>
   </section>
 
   <!-- 3 Opening line -->
@@ -344,39 +365,40 @@
     <div class="content">
       <div class="pill">Velkomst</div>
       <p class="big-quote">
-        Jeres hverdag kører&nbsp;i&nbsp;e-conomic.
+        Jeres hverdag kører i <span class="nowrap">e-conomic</span>.
         <span class="line2">Vores hverdag går med at bygge det.</span>
       </p>
       <p class="kicker">Hvem er i rummet?</p>
-      <div class="footer"><span>Velkomst</span><span>3 / 11</span></div>
+      <div class="footer"><span>2 / 10</span></div>
     </div>
-    <div class="media" style="background-image:url('assets/img/03-velkomst.jpg');"></div>
+    <div class="media" style="background-image:url('assets/img/03-velkomst.png');"></div>
   </section>
 
   <!-- 4 Vision & Mission -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvem vi er</div>
-      <h2>Vi forandrer fremtidens regnskab — <span class="accent">med jer i hjertet</span>.</h2>
+      <h2>Vi forandrer fremtidens regnskab — med jer i hjertet.</h2>
       <p class="lede">Vores mission er at levere den mest innovative regnskabsteknologi, der forenkler workflows, sikrer compliance og skaber effektivitet i jeres forretning.</p>
-      <div class="footer"><span>Mission</span><span>4 / 11</span></div>
+      <div class="footer"><span>3 / 10</span></div>
     </div>
-    <div class="media" style="background-image:url('assets/img/04-mission.jpg');"></div>
+    <div class="media" style="background-image:url('assets/img/04-mission.png');"></div>
   </section>
 
   <!-- 5 By the numbers -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Products i tal</div>
-      <h2>Hvem vi er, <span class="accent">i tal</span></h2>
+      <h2>Hvem vi er, i tal</h2>
       <div class="stats">
         <div class="stat"><div class="n">210</div><div class="l">mennesker i Products</div></div>
         <div class="stat"><div class="n">38</div><div class="l">nationaliteter</div></div>
-        <div class="stat"><div class="n">3</div><div class="l">kontorer — Denmark · Romania · Portugal</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">kontorer</div></div>
       </div>
-      <div class="footer"><span>Hvem vi er</span><span>5 / 11</span></div>
+      <p class="offices">Denmark · Romania · Portugal</p>
+      <div class="footer"><span>4 / 10</span></div>
     </div>
-    <div class="media" style="background-image:url('assets/img/05-i-tal.jpg');"></div>
+    <div class="media" style="background-image:url('assets/img/05-i-tal.png');"></div>
   </section>
 
   <!-- 6 2025 research stats -->
@@ -391,18 +413,18 @@
         <div class="stat"><div class="n">9</div><div class="l">roadshows</div></div>
       </div>
       <p class="lede">Det er jeres input der former hvad vi bygger i dag.</p>
-      <div class="footer"><span>Research 2025</span><span>6 / 11</span></div>
+      <div class="footer"><span>5 / 10</span></div>
     </div>
-    <div class="media" style="background-image:url('assets/img/06-research-2025.jpg');"></div>
+    <div class="media" style="background-image:url('assets/img/06-research-2025.png');"></div>
   </section>
 
   <!-- 7 Why we do research -->
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvorfor</div>
-      <h2>Hvorfor vi banker på <span class="accent">jeres dør</span></h2>
+      <h2>Hvorfor vi banker på jeres dør</h2>
       <p class="lede">Tallene fortæller hvad. I fortæller hvorfor — så vi bygger det I faktisk har brug for.</p>
-      <div class="footer"><span>Hvorfor</span><span>7 / 11</span></div>
+      <div class="footer"><span>6 / 10</span></div>
     </div>
     <div class="media" style="background-image:url('assets/img/07-hvorfor.jpg');"></div>
   </section>
@@ -411,7 +433,7 @@
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvad vi lytter efter</div>
-      <h2>Vi vil forstå de <span class="accent">opgaver I skal have løst</span>.</h2>
+      <h2>Vi vil forstå de opgaver I skal have løst.</h2>
       <ul class="checks">
         <li>Hvad virker ikke i dag?</li>
         <li>Hvordan arbejder I — og hvilke workarounds har I fundet?</li>
@@ -419,7 +441,7 @@
         <li>Hvorfor vælger I en funktion frem for en anden?</li>
         <li>Hvad tænker I om fremtiden?</li>
       </ul>
-      <div class="footer"><span>Jobs to be done</span><span>8 / 11</span></div>
+      <div class="footer"><span>7 / 10</span></div>
     </div>
     <div class="media" style="background-image:url('assets/img/08-jobs-to-be-done.jpg');"></div>
   </section>
@@ -443,7 +465,7 @@
           <p>Mine indstillinger / Feedback / Brugerpanel. Meld dig ud når som helst.</p>
         </div>
       </div>
-      <div class="footer"><span>Brugerpanel</span><span>9 / 11</span></div>
+      <div class="footer"><span>8 / 10</span></div>
     </div>
     <div class="media" style="background-image:url('assets/img/09-brugerpanel.jpg');"></div>
   </section>
@@ -452,28 +474,33 @@
   <section class="slide split">
     <div class="content">
       <div class="pill">Hvad sker der</div>
-      <h2>Sådan kan en <span class="accent">samtale</span> se ud</h2>
-      <ul class="convo-list">
-        <li>Du møder <strong>Rasmus og Sara</strong> — fra dit kontor, måske med en kaffe. Nysgerrigheden står vi for.</li>
-        <li>Vi spørger ind til din hverdag — hvad fylder, hvad frustrerer, hvad fungerer.</li>
-        <li>Måske tester vi noget nyt sammen — der er ingen forkerte svar, kun ærlige.</li>
-        <li>Vi vil høre om dine genveje, workarounds og alt det du ville ønske e-conomic bare kunne.</li>
-        <li><em>Du taler, vi lytter — og vi har som regel rigtig mange spørgsmål.</em></li>
-      </ul>
-      <div class="footer"><span>Touchpoint</span><span>10 / 11</span></div>
+      <h2>Sådan fungerer det</h2>
+      <div class="session-copy">
+        <p>Du møder os i <strong>20–60 minutter</strong> — remote eller personligt. Du taler med en eller to fra vores team — ligesom dem du møder i dag. Vi sender en agenda på forhånd.</p>
+        <p>I sessionen graver vi ned i hvordan du arbejder i dag — hvad der fungerer, hvad der gør ondt, hvad du ønsker e-conomic kunne gøre anderledes. Vi tester måske noget nyt. Primært lytter vi og stiller spørgsmål.</p>
+      </div>
+      <div class="why-join">
+        <div class="pill">Hvorfor deltage</div>
+        <ul class="checks why-join-list">
+          <li>Dit feedback former hvad vi bygger næste.</li>
+          <li>Tidlig adgang til nye features.</li>
+          <li>Ingen forberedelse nødvendig.</li>
+        </ul>
+      </div>
+      <div class="footer"><span>9 / 10</span></div>
     </div>
-    <div class="media" style="background-image:url('assets/img/10-samtale.jpg');"></div>
+    <div class="media" style="background-image:url('assets/img/10-samtale.png');"></div>
   </section>
 
   <!-- 11 Closing -->
   <section class="slide simple closing">
     <div class="simple-inner">
-      <p class="big-quote">Tak<span class="accent">!</span></p>
+      <p class="big-quote">Vi glæder os til at arbejde med <span class="accent">jer i dag</span></p>
       <p class="closing-kicker">
-        Vi håber I fik et indblik i hvem vi er — og lyst til at være med til at forme det vi bygger. Vi kan ikke gøre det uden jer.
+        og håber I er med i fremtiden.
       </p>
     </div>
-    <div class="footer"><span>11 / 11</span></div>
+    <div class="footer"><span>10 / 10</span></div>
   </section>
 
 </div>
